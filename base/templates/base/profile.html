@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% block content %}
+ 
+<main class="profile-page layout layout--3">
+    <div class="container">
+      <!-- Topics Start -->
+      {% include 'base/topics_component.html' %}
+      <!-- Topics End -->
+
+      <!-- Room List Start -->
+      <div class="roomList">
+        <div class="profile">
+          <div class="profile__avatar">
+            <div class="avatar avatar--large active">
+              <img src="{{user.avatar.url}}" />
+            </div>
+          </div>
+          <div class="profile__info">
+            <h3>{{user.name}}</h3>
+            <p>@{{user.username}}</p>
+            {% if request.user == user %}
+            <a href="{% url 'update-user' %}" class="btn btn--main btn--pill">Edit Profile</a>
+            {% endif %}
+          </div>
+          <div class="profile__about">
+            <h3>About</h3>
+            <p>
+              {{ user.bio }}
+            </p>
+          </div>
+        </div>
+
+        <div class="roomList__header">
+          <div>
+            <h2>Rooms Hosted by {{user.name}}</a>
+            </h2>
+          </div>
+        </div>
+        {% include 'base/feed_component_home.html' %}
+
+      </div>
+      <!-- Room List End -->
+
+      <!-- Activities Start -->
+      {% include 'base/activity_component.html' %}
+      <!-- Activities End -->
+    </div>
+
+    <br><br>
+  <div style=" font-family: sans-serif; font-size: 1.8rem; width:100%; text-align: center; padding-bottom: 8rem; ">
+
+    {% if list.has_previous %}
+      <a href="?page=1"> &laquo First</a>
+      <a href="?page={{list.previous_page_number}}">|  Previous</a>
+    {% endif %}
+
+    Page {{list.number}} of {{list.paginator.num_pages}}
+
+    {% if list.has_next %}
+    <a href="?page={{list.next_page_number}}">Next  |</a>
+    <a href="?page={{list.paginator.num_pages}}">  Last &raquo</a>
+    {% endif %}
+
+  </div>
+</main>
+
+{% endblock content %}
